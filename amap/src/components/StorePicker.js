@@ -11,17 +11,22 @@ class StorePicker extends React.Component
   //   this.goToStore = this.goToStore.bind(this);
   // }
 
-  goToStore(event) {
+  goToStore(event)
+  {
     event.preventDefault();
-    console.log("Tu as changé l'URL");
+    console.log("Tu as changé l'URL : ");
+    
     // On récupère le texte entré dans le formulaire
     const storeId = this.storeInput.value;
+    
     console.log(`On va vers ${storeId}`);
+    
     // Ensuite on va se déplacer de / vers /store/:storeId
     console.log(this);
     this.props.history.push(`store/${storeId}`);
   }
-	render(){
+	render()
+  {
 		//dans tout les cas, afficher
 		return (
 			<form className="store-selector" onSubmit={(e) => this.goToStore(e)}>

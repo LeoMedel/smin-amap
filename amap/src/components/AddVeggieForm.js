@@ -1,9 +1,12 @@
 import React from 'react';
 
 class AddVeggieForm extends React.Component {
-  createVeggie(event) {
+  
+  createVeggie(event)
+  {
     event.preventDefault();
     console.log('On va ajouter des légumes!');
+    
     // On stocke les valeurs du form dans une variable veggie
     const veggie = {
       name: this.name.value,
@@ -12,12 +15,14 @@ class AddVeggieForm extends React.Component {
       desc: this.desc.value,
       image: this.image.value,
     }
+    
     // On envoie cette variable via des props à la méthode addVeggie()
     this.props.addVeggie(veggie);
     this.veggieForm.reset();
   }
 
-  render() {
+  render()
+  {
     return (
       <form ref={(input) => this.veggieForm = input} className="veggie-edit" onSubmit={(e) => this.createVeggie(e)}>
         <input ref={(input) => this.name = input} type="text" placeholder="Veggie Name" />

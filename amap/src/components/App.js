@@ -12,14 +12,8 @@ class App extends React.Component {
 
   constructor() {
   super();
-  /*var config = {
-    apiKey: "<API_KEY>",
-    authDomain: "<PROJECT_ID>.firebaseapp.com",
-    databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
-    storageBucket: "<BUCKET>.appspot.com",
-  };
-  firebase.initializeApp(config); */
-  //console.log(localStorage);
+  
+
   this.addVeggie = this.addVeggie.bind(this);
   this.get_nbr_veggie_in_order = this.get_nbr_veggie_in_order.bind(this);
   this.increment_nbr_veggie_in_order = this.increment_nbr_veggie_in_order.bind(this)
@@ -44,6 +38,7 @@ class App extends React.Component {
   // mise à jour du state
   // on fait une copie de notre state
   const veggies = {...this.state.veggies};
+
   // ajout de notre nouveau veggie
   //console.log(veggies);
   const timestamp = Date.now();
@@ -72,139 +67,133 @@ class App extends React.Component {
   }
 
 
-
-
   //  retourne le nombre de fois qu'un même veggié a été ajouté dans le order (le panier)
   get_nbr_veggie_in_order( key )
   {
-  return this.state.compteur[`${key}`];
+    return this.state.compteur[`${key}`];
   }
 
   // Increment dans le state compteur le nombre de fois qu'on a ddécidé d'ajouter un veggie dans le order (le panier)
   increment_nbr_veggie_in_order( key )
   {
-  if( key in this.state.compteur )
-  {
-    this.state.compteur[`${key}`] += 1*1;
-  }
-  else
-  {
-    this.state.compteur[`${key}`] = 1*1;
-  }
-  }
-
-   remove_nbr_veggie_in_state( key )
-  {
-  if( key in this.state.compteur )
-  {
-    delete this.state.compteur[`${key}`];
-  }
+    if( key in this.state.compteur )
+    {
+      this.state.compteur[`${key}`] += 1*1;
+    }
+    else
+    {
+      this.state.compteur[`${key}`] = 1*1;
+    }
   }
 
+  remove_nbr_veggie_in_state( key )
+  {
+    if( key in this.state.compteur )
+    {
+      delete this.state.compteur[`${key}`];
+    }
+  }
 
   // Ajouter un vaggier dans le order
   add_in_order(key, veggie )
   {
-  var total_article = this.state.total_article *1;
-  total_article += 1*1;
-  this.setState({total_article});
-  //console.log(key);
-  //console.log(veggie)
-  // Copie du state order
-  const order = {...this.state.order};
-  order[`${key}`] = veggie;
-  this.setState({order});
-  var total_price = this.state.total_price*1;
-  total_price += veggie.price*1;           
-  console.log("Prix total : "+total_price);
-  this.setState({total_price});
-  this.increment_nbr_veggie_in_order( key );
-  console.log(this.state)
+    var total_article = this.state.total_article *1;
+    total_article += 1*1;
+    this.setState({total_article});
+  
+    // Copie du state order
+    const order = {...this.state.order};
+    order[`${key}`] = veggie;
+    this.setState({order});
+    var total_price = this.state.total_price*1;
+    total_price += veggie.price*1;           
+    console.log("Prix total : "+total_price);
+    this.setState({total_price});
+    this.increment_nbr_veggie_in_order( key );
+    console.log(this.state)
   }
+
   // Supprimer un veggie dans le order
   delete_in_order(index, veggie)
   {
-  // copie du nombre total des article ajouté dans le panier
-  var total_article = this.state.total_article*1;
-  //Décremente du nombre d'article (car on va supprimé un article)
-  total_article -= this.get_nbr_veggie_in_order(index)*1;
-  // mise à jour dans le state du nombre d'article
-  this.setState({total_article});
+    // copie du nombre total des article ajouté dans le panier
+    var total_article = this.state.total_article*1;
+    
+    //Décremente du nombre d'article (car on va supprimé un article)
+    total_article -= this.get_nbr_veggie_in_order(index)*1;
+  
+    // mise à jour dans le state du nombre d'article
+    this.setState({total_article});
 
-  // copie des article dans le panier
-  const order = {...this.state.order};
-  delete order[`${index}`];
-  //order[`${key}`] = undefined;
-  this.setState({order});
+    // copie des article dans le panier
+    const order = {...this.state.order};
+    delete order[`${index}`];
     
-  var total_price = this.state.total_price*1;
-  total_price -= veggie.price*1*this.get_nbr_veggie_in_order(index)*1;           
-  //console.log("Prix total : "+total_price);
-  this.setState({total_price});
+    //order[`${key}`] = undefined;
+    this.setState({order});
     
-  this.remove_nbr_veggie_in_state( index );
-  console.log(this.state)
+    var total_price = this.state.total_price*1;
+    total_price -= veggie.price*1*this.get_nbr_veggie_in_order(index)*1;           
+    //console.log("Prix total : "+total_price);
+    this.setState({total_price});
+    
+    this.remove_nbr_veggie_in_state( index );
+    console.log(this.state)
 
   }
 
   // Sauvegarde des informations modifée en pendant l'utilisateur de l'app
-  componentWillUpdate(nextProps, nextState){
-  //console.log("Props et state :");
-  //console.log(nextProps);
-  //console.log(nextState);
-  //console.log("componentWillUpdate");
-  localStorage.setItem('order', JSON.stringify(nextState.order) );
-  //localStorage.setItem('veggies', JSON.stringify(nextState.veggies));
-  localStorage.setItem('total_price', JSON.stringify(nextState.total_price));
-  localStorage.setItem('compteur', JSON.stringify(nextState.compteur));
-  localStorage.setItem('total_article', JSON.stringify(nextState.total_article));
-  localStorage.setItem('props', JSON.stringify(nextProps));
-  //console.log(this.state.order);
+  componentWillUpdate(nextProps, nextState)
+  {
+
+    localStorage.setItem('order', JSON.stringify(nextState.order) );
+    localStorage.setItem('total_price', JSON.stringify(nextState.total_price));
+    localStorage.setItem('compteur', JSON.stringify(nextState.compteur));
+    localStorage.setItem('total_article', JSON.stringify(nextState.total_article));
+    localStorage.setItem('props', JSON.stringify(nextProps));
+    //console.log(this.state.order);
   }
  
   // Recharge les informations en stockage locale si elles existent
-  componentWillMount(){
-  //console.log("state");
-  //console.log(this.state);
-  //console.log("componentWillMount");
-  localStorage.getItem('order') && this.setState({order: JSON.parse(localStorage.getItem('order'))});
-  //localStorage.getItem('veggies') && this.setState({veggies: JSON.parse(localStorage.getItem('veggies'))});
-  localStorage.getItem('total_price') && this.setState({total_price: JSON.parse(localStorage.getItem('total_price'))});
-  localStorage.getItem('compteur') && this.setState({compteur: JSON.parse(localStorage.getItem('compteur'))});
-  localStorage.getItem('total_article') && this.setState({total_article: JSON.parse(localStorage.getItem('total_article'))});
+  componentWillMount()
+  {
+    localStorage.getItem('order') && this.setState({order: JSON.parse(localStorage.getItem('order'))});
+    localStorage.getItem('total_price') && this.setState({total_price: JSON.parse(localStorage.getItem('total_price'))});
+    localStorage.getItem('compteur') && this.setState({compteur: JSON.parse(localStorage.getItem('compteur'))});
+    localStorage.getItem('total_article') && this.setState({total_article: JSON.parse(localStorage.getItem('total_article'))});
   }
 
   // Sauvegarde des informations lorsqu'on quitte l'app
-  componentWillUnmount(){
-  //console.log("componentWillUnmount");
-  localStorage.setItem('order', JSON.stringify(this.state.order));
-  //localStorage.setItem('veggies', JSON.stringify(this.state.veggies));
-  localStorage.setItem('total_price', JSON.stringify(this.state.total_price));
-  localStorage.setItem('compteur', JSON.stringify(this.state.compteur));
-  localStorage.setItem('total_article', JSON.stringify(this.state.total_article));
+  componentWillUnmount()
+  {
+    //console.log("componentWillUnmount");
+    localStorage.setItem('order', JSON.stringify(this.state.order));
+    //localStorage.setItem('veggies', JSON.stringify(this.state.veggies));
+    localStorage.setItem('total_price', JSON.stringify(this.state.total_price));
+    localStorage.setItem('compteur', JSON.stringify(this.state.compteur));
+    localStorage.setItem('total_article', JSON.stringify(this.state.total_article));
   }
 
 
   // Retourne la vue
-  render() {
-  return (
-    <div className="amap">
-      <div className="menu">
-        <Header tagline="Des bons legumes" />
-        <ul className="list-of-veggies">
-          {
-            Object
-              .keys(this.state.veggies)
-              .map(key => <Veggie key={key} index={key} add_in_order={this.add_in_order} details={this.state.veggies[key]}/>)            
-          }
-        </ul>
-      </div>
+  render()
+  {
+    return (
+      <div className="amap">
+        <div className="menu">
+          <Header tagline="Des bons legumes" />
+          <ul className="list-of-veggies">
+            {
+              Object
+                .keys(this.state.veggies)
+                .map(key => <Veggie key={key} index={key} add_in_order={this.add_in_order} details={this.state.veggies[key]}/>)            
+            }
+          </ul>
+        </div>
           <Order delete_in_order={this.delete_in_order} state ={this.state} formatPrice= {formatPrice}  get_nbr_veggie_in_order={this.get_nbr_veggie_in_order} />
- 
- 
-      <Inventory addVeggie={this.addVeggie} loadSamples={this.loadSamples} />
-    </div>
-  )
+          <Inventory addVeggie={this.addVeggie} loadSamples={this.loadSamples} />
+      </div>
+    )
   }
 }
 

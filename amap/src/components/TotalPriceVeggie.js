@@ -1,6 +1,7 @@
 import React from 'react';
 
-class TotalPriceVeggie extends React.Component {
+class TotalPriceVeggie extends React.Component
+{
     render() {
     	return (
    		 <li className="total">
@@ -11,5 +12,3 @@ class TotalPriceVeggie extends React.Component {
 }
 
 export default TotalPriceVeggie;
-
-
